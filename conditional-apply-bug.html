@@ -1,0 +1,12 @@
+This error occurs when using Tailwind's `@apply` directive within a class that's conditionally applied based on a JavaScript variable or a state change.  The problem stems from the fact that `@apply` directives are processed during the build process and not at runtime. Therefore, if the class containing the `@apply` is not included in the final CSS output due to it not being used, Tailwind won't apply the styles.
+
+For example:
+
+```html
+<div :class="{'active': isActive}">
+  <!-- This will only be styled if isActive is true during the build -->
+  <p class="@apply text-blue-500">Some text</p>
+</div>
+```
+
+In this case, if `isActive` is false during the build step (e.g., in a server-side rendering context), the `.active` class won't be present in the resulting CSS, and the `@apply` directive within it won't take effect, even if `isActive` becomes true later on client-side.
