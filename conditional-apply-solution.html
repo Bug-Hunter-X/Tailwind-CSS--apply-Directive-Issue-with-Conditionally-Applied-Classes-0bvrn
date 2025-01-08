@@ -1,0 +1,32 @@
+To fix this, avoid using `@apply` within classes that are conditionally applied.  Instead, use regular Tailwind utility classes directly or create a dedicated class for the styles outside the conditional logic.
+
+For example, instead of:
+
+```html
+<div :class="{'active': isActive}">
+  <p class="@apply text-blue-500">Some text</p>
+</div>
+```
+
+Use this:
+
+```html
+<div :class="{'active': isActive}">
+  <p class="text-blue-500">Some text</p> <p class="active:text-red-500">Some more text</p>
+</div>
+```
+
+Or, create separate classes and apply them accordingly:
+
+```html
+<div :class="{'active': isActive, 'my-custom-class': isActive}">
+  <p>Some text</p>
+</div>
+
+<style>
+.my-custom-class {
+  @apply text-blue-500;
+}
+</style>
+```
+This will ensure that the styles are always included in the CSS output, resolving the issue.
